@@ -469,10 +469,10 @@ namespace pixelgpudetails {
 
     int first = threadIdx.x;
 
-    // limit to maxHitsInModule()
+    // limit to maxHitsInModule
     for (int i = first, iend = gpuClustering::maxNumModules; i < iend; i += blockDim.x) {
       // use CUDA ::min() instead of std::min to allow using constexpr variables in device code
-      moduleStart[i + 1] = ::min(gpuClustering::maxHitsInModule(), cluStart[i]);
+      moduleStart[i + 1] = ::min(gpuClustering::maxHitsInModule, cluStart[i]);
     }
 
     __shared__ uint32_t ws[32];
@@ -486,7 +486,7 @@ namespace pixelgpudetails {
 
 #ifdef GPU_DEBUG
     assert(0 == moduleStart[0]);
-    auto c0 = ::min(gpuClustering::maxHitsInModule(), cluStart[0]);
+    auto c0 = ::min(gpuClustering::maxHitsInModule, cluStart[0]);
     assert(c0 == moduleStart[1]);
     assert(moduleStart[1024] >= moduleStart[1023]);
     assert(moduleStart[1025] >= moduleStart[1024]);

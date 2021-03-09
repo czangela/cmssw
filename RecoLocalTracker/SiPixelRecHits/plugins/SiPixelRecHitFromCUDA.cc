@@ -105,7 +105,7 @@ void SiPixelRecHitFromCUDA::produce(edm::Event& iEvent, edm::EventSetup const& e
   edm::Handle<SiPixelClusterCollectionNew> hclusters = iEvent.getHandle(clusterToken_);
   auto const& input = *hclusters;
 
-  constexpr uint32_t maxHitsInModule = gpuClustering::maxHitsInModule();
+  constexpr uint32_t maxHitsInModule = gpuClustering::maxHitsInModule;
 
   int numberOfDetUnits = 0;
   int numberOfClusters = 0;

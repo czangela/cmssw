@@ -110,7 +110,7 @@ void SiPixelRecHitSoAFromLegacy::produce(edm::StreamID streamID, edm::Event& iEv
 
   std::vector<edm::Ref<edmNew::DetSetVector<SiPixelCluster>, SiPixelCluster>> clusterRef;
 
-  constexpr uint32_t maxHitsInModule = gpuClustering::maxHitsInModule();
+  constexpr uint32_t maxHitsInModule = gpuClustering::maxHitsInModule;
 
   HitModuleStart moduleStart_;  // index of the first pixel of each module
   HitModuleStart clusInModule_;

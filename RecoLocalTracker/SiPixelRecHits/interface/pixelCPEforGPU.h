@@ -98,7 +98,7 @@ namespace pixelCPEforGPU {
     int16_t ysize[N];
   };
 
-  constexpr int32_t MaxHitsInIter = gpuClustering::maxHitsInIter();
+  constexpr int32_t MaxHitsInIter = gpuClustering::maxHitsInIter;
   using ClusParams = ClusParamsT<MaxHitsInIter>;
 
   constexpr inline void computeAnglesFromDet(
