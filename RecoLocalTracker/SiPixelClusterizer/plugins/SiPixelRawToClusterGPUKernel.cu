@@ -471,7 +471,8 @@ namespace pixelgpudetails {
 
     // limit to maxHitsInModule()
     for (int i = first, iend = gpuClustering::maxNumModules; i < iend; i += blockDim.x) {
-      moduleStart[i + 1] = std::min(gpuClustering::maxHitsInModule(), cluStart[i]);
+      // use CUDA ::min() instead of std::min to allow using constexpr variables in device code
+      moduleStart[i + 1] = ::min(gpuClustering::maxHitsInModule(), cluStart[i]);
     }
 
     __shared__ uint32_t ws[32];
@@ -485,7 +486,7 @@ namespace pixelgpudetails {
 
 #ifdef GPU_DEBUG
     assert(0 == moduleStart[0]);
-    auto c0 = std::min(gpuClustering::maxHitsInModule(), cluStart[0]);
+    auto c0 = ::min(gpuClustering::maxHitsInModule(), cluStart[0]);
     assert(c0 == moduleStart[1]);
     assert(moduleStart[1024] >= moduleStart[1023]);
     assert(moduleStart[1025] >= moduleStart[1024]);
@@ -504,7 +505,10 @@ namespace pixelgpudetails {
     // avoid overflow
     auto constexpr maxNumClusters = gpuClustering::maxNumClusters;
     for (int i = first, iend = gpuClustering::maxNumModules + 1; i < iend; i += blockDim.x) {
-      moduleStart[i] = std::clamp(moduleStart[i], 0U, maxNumClusters);
+      // clamp moduleStart[i] to boundaries 0 and maxNumClusters (uint32_t)
+      // there is not CUDA ::clamp(), replace with ::min() and ::max()
+      moduleStart[i] = ::max(0U, moduleStart[i]);
+      moduleStart[i] = ::min(moduleStart[i], maxNumClusters);
     }
   }
 
