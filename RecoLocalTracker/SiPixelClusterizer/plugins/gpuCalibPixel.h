@@ -10,7 +10,7 @@
 
 namespace gpuCalibPixel {
 
-  using gpuClustering::invalidModuleId;
+  using gpuClusteringConstants::invalidModuleId;
 
   // valid for run2
   constexpr float VCaltoElectronGain = 47;         // L2-4: 47 +- 4.7
@@ -34,7 +34,7 @@ namespace gpuCalibPixel {
     // zero for next kernels...
     if (0 == first)
       clusModuleStart[0] = moduleStart[0] = 0;
-    for (int i = first; i < gpuClustering::maxNumModules; i += gridDim.x * blockDim.x) {
+    for (int i = first; i < gpuClusteringConstants::maxNumModules; i += gridDim.x * blockDim.x) {
       nClustersInModule[i] = 0;
     }
 

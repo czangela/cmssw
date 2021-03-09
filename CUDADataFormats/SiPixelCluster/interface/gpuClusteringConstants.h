@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <limits>
 
-namespace gpuClustering {
+namespace gpuClusteringConstants {
 #ifdef GPU_SMALL_EVENTS
   // kept for testing and debugging
   constexpr uint32_t maxHitsInIter = 64;
@@ -19,10 +19,10 @@ namespace gpuClustering {
   constexpr uint32_t maxHitsInModule = 1024; 
   constexpr uint16_t maxNumModules = 2000;
   constexpr int32_t maxNumClustersPerModules = maxHitsInModule;
-  constexpr uint32_t maxNumClusters = gpuClustering::maxNumberOfHits;
+  constexpr uint32_t maxNumClusters = gpuClusteringConstants::maxNumberOfHits;
   constexpr uint16_t invalidModuleId = std::numeric_limits<uint16_t>::max() - 1;
   static_assert(invalidModuleId > maxNumModules);  // invalidModuleId must be > maxNumModules
 
-}  // namespace gpuClustering
+}  // namespace gpuClusteringConstants
 
 #endif  // CUDADataFormats_SiPixelCluster_interface_gpuClusteringConstants_h

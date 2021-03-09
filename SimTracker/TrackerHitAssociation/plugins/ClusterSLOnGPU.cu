@@ -21,8 +21,8 @@ __global__ void simLink(const SiPixelDigisCUDA::DeviceConstView* dd,
                         ClusterSLView sl,
                         uint32_t n) {
   constexpr uint32_t invTK = 0;  // std::numeric_limits<int32_t>::max();
-  using gpuClustering::invalidModuleId;
-  using gpuClustering::maxNumModules;
+  using gpuClusteringConstants::invalidModuleId;
+  using gpuClusteringConstants::maxNumModules;
 
   auto const& hh = *hhp;
   auto i = blockIdx.x * blockDim.x + threadIdx.x;

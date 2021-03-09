@@ -8,7 +8,7 @@
 #include "HeterogeneousCore/CUDAUtilities/interface/cuda_assert.h"
 #include "HeterogeneousCore/CUDAUtilities/interface/prefixScan.h"
 
-namespace gpuClustering {
+namespace gpuClusteringConstants {
 
   __global__ void clusterChargeCut(
       uint16_t* __restrict__ id,                 // module id of each pixel (modified if bad cluster)
@@ -120,6 +120,6 @@ namespace gpuClustering {
     }  // loop on modules
   }
 
-}  // namespace gpuClustering
+}  // namespace gpuClusteringConstants
 
 #endif  // RecoLocalTracker_SiPixelClusterizer_plugins_gpuClusterChargeCut_h

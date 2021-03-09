@@ -24,7 +24,7 @@ int main(void) {
   cms::cudatest::requireDevices();
 #endif  // __CUDACC__
 
-  using namespace gpuClustering;
+  using namespace gpuClusteringConstants;
 
   constexpr int numElements = 256 * maxNumModules;
 

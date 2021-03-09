@@ -54,7 +54,7 @@ void SiPixelDigisClustersFromSoA::produce(edm::StreamID, edm::Event& iEvent, con
 
   auto collection = std::make_unique<edm::DetSetVector<PixelDigi>>();
   auto outputClusters = std::make_unique<SiPixelClusterCollectionNew>();
-  outputClusters->reserve(gpuClustering::maxNumModules, nDigis / 4);
+  outputClusters->reserve(gpuClusteringConstants::maxNumModules, nDigis / 4);
 
   edm::DetSet<PixelDigi>* detDigis = nullptr;
   for (uint32_t i = 0; i < nDigis; i++) {
@@ -67,7 +67,7 @@ void SiPixelDigisClustersFromSoA::produce(edm::StreamID, edm::Event& iEvent, con
   }
 
   int32_t nclus = -1;
-  std::vector<PixelClusterizerBase::AccretionCluster> aclusters(gpuClustering::maxNumClustersPerModules);
+  std::vector<PixelClusterizerBase::AccretionCluster> aclusters(gpuClusteringConstants::maxNumClustersPerModules);
 #ifdef EDM_ML_DEBUG
   auto totClustersFilled = 0;
 #endif
@@ -128,7 +128,7 @@ void SiPixelDigisClustersFromSoA::produce(edm::StreamID, edm::Event& iEvent, con
     auto const& dig = (*detDigis).data.back();
     // fill clusters
     assert(digis.clus(i) >= 0);
-    assert(digis.clus(i) < gpuClustering::maxNumClustersPerModules);
+    assert(digis.clus(i) < gpuClusteringConstants::maxNumClustersPerModules);
     nclus = std::max(digis.clus(i), nclus);
     auto row = dig.row();
     auto col = dig.column();

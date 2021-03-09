@@ -84,8 +84,8 @@ void SiPixelRecHitFromCUDA::acquire(edm::Event const& iEvent,
 
 void SiPixelRecHitFromCUDA::produce(edm::Event& iEvent, edm::EventSetup const& es) {
   // allocate a buffer for the indices of the clusters
-  auto hmsp = std::make_unique<uint32_t[]>(gpuClustering::maxNumModules + 1);
-  std::copy(hitsModuleStart_.get(), hitsModuleStart_.get() + gpuClustering::maxNumModules + 1, hmsp.get());
+  auto hmsp = std::make_unique<uint32_t[]>(gpuClusteringConstants::maxNumModules + 1);
+  std::copy(hitsModuleStart_.get(), hitsModuleStart_.get() + gpuClusteringConstants::maxNumModules + 1, hmsp.get());
   // wrap the buffer in a HostProduct, and move it to the Event, without reallocating the buffer or affecting hitsModuleStart
   iEvent.emplace(hostPutToken_, std::move(hmsp));
 
@@ -105,7 +105,7 @@ void SiPixelRecHitFromCUDA::produce(edm::Event& iEvent, edm::EventSetup const& e
   edm::Handle<SiPixelClusterCollectionNew> hclusters = iEvent.getHandle(clusterToken_);
   auto const& input = *hclusters;
 
-  constexpr uint32_t maxHitsInModule = gpuClustering::maxHitsInModule;
+  constexpr uint32_t maxHitsInModule = gpuClusteringConstants::maxHitsInModule;
 
   int numberOfDetUnits = 0;
   int numberOfClusters = 0;

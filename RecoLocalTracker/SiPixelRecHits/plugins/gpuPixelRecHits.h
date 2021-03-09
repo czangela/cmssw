@@ -54,7 +54,7 @@ namespace gpuPixelRecHits {
     }
 
     // to be moved in common namespace...
-    using gpuClustering::invalidModuleId;
+    using gpuClusteringConstants::invalidModuleId;
     constexpr int32_t MaxHitsInIter = pixelCPEforGPU::MaxHitsInIter;
 
     using ClusParams = pixelCPEforGPU::ClusParams;

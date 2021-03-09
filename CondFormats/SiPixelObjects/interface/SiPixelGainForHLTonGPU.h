@@ -60,7 +60,7 @@ public:
   constexpr float decodePed(unsigned int ped) const { return ped * pedPrecision_ + minPed_; }
 
   DecodingStructure* v_pedestals_;
-  std::pair<Range, int> rangeAndCols_[gpuClustering::maxNumModules];
+  std::pair<Range, int> rangeAndCols_[gpuClusteringConstants::maxNumModules];
 
   float minPed_, maxPed_, minGain_, maxGain_;
   float pedPrecision_, gainPrecision_;

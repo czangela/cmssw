@@ -14,11 +14,11 @@ namespace pixelCPEforGPU {
 
 class TrackingRecHit2DSOAView {
 public:
-  static constexpr uint32_t maxHits() { return gpuClustering::maxNumClusters; }
+  static constexpr uint32_t maxHits() { return gpuClusteringConstants::maxNumClusters; }
   using hindex_type = uint32_t;  // if above is <=2^32
 
   using PhiBinner =
-      cms::cuda::HistoContainer<int16_t, 128, gpuClustering::maxNumClusters, 8 * sizeof(int16_t), hindex_type, 10>;
+      cms::cuda::HistoContainer<int16_t, 128, gpuClusteringConstants::maxNumClusters, 8 * sizeof(int16_t), hindex_type, 10>;
 
   using AverageGeometry = phase1PixelTopology::AverageGeometry;
 

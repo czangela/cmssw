@@ -13,8 +13,8 @@ cms::cuda::host::unique_ptr<float[]> TrackingRecHit2DCUDA::localCoordToHostAsync
 
 template <>
 cms::cuda::host::unique_ptr<uint32_t[]> TrackingRecHit2DCUDA::hitsModuleStartToHostAsync(cudaStream_t stream) const {
-  auto ret = cms::cuda::make_host_unique<uint32_t[]>(gpuClustering::maxNumModules + 1, stream);
+  auto ret = cms::cuda::make_host_unique<uint32_t[]>(gpuClusteringConstants::maxNumModules + 1, stream);
   cudaCheck(cudaMemcpyAsync(
-      ret.get(), m_hitsModuleStart, sizeof(uint32_t) * (gpuClustering::maxNumModules + 1), cudaMemcpyDefault, stream));
+      ret.get(), m_hitsModuleStart, sizeof(uint32_t) * (gpuClusteringConstants::maxNumModules + 1), cudaMemcpyDefault, stream));
   return ret;
 }

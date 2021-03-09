@@ -33,7 +33,7 @@ public:
 
   static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
-  using HitModuleStart = std::array<uint32_t, gpuClustering::maxNumModules + 1>;
+  using HitModuleStart = std::array<uint32_t, gpuClusteringConstants::maxNumModules + 1>;
   using HMSstorage = HostProduct<uint32_t[]>;
 
 private:
@@ -90,7 +90,7 @@ void SiPixelRecHitSoAFromLegacy::produce(edm::StreamID streamID, edm::Event& iEv
   auto const& input = *hclusters;
 
   // allocate a buffer for the indices of the clusters
-  auto hmsp = std::make_unique<uint32_t[]>(gpuClustering::maxNumModules + 1);
+  auto hmsp = std::make_unique<uint32_t[]>(gpuClusteringConstants::maxNumModules + 1);
   // hitsModuleStart is a non-owning pointer to the buffer
   auto hitsModuleStart = hmsp.get();
   // wrap the buffer in a HostProduct
@@ -110,13 +110,13 @@ void SiPixelRecHitSoAFromLegacy::produce(edm::StreamID streamID, edm::Event& iEv
 
   std::vector<edm::Ref<edmNew::DetSetVector<SiPixelCluster>, SiPixelCluster>> clusterRef;
 
-  constexpr uint32_t maxHitsInModule = gpuClustering::maxHitsInModule;
+  constexpr uint32_t maxHitsInModule = gpuClusteringConstants::maxHitsInModule;
 
   HitModuleStart moduleStart_;  // index of the first pixel of each module
   HitModuleStart clusInModule_;
   memset(&clusInModule_, 0, sizeof(HitModuleStart));  // needed??
-  assert(gpuClustering::maxNumModules + 1 == clusInModule_.size());
-  assert(0 == clusInModule_[gpuClustering::maxNumModules]);
+  assert(gpuClusteringConstants::maxNumModules + 1 == clusInModule_.size());
+  assert(0 == clusInModule_[gpuClusteringConstants::maxNumModules]);
   uint32_t moduleId_;
   moduleStart_[1] = 0;  // we run sequentially....
 
@@ -130,7 +130,7 @@ void SiPixelRecHitSoAFromLegacy::produce(edm::StreamID streamID, edm::Event& iEv
     DetId detIdObject(detid);
     const GeomDetUnit* genericDet = geom_->idToDetUnit(detIdObject);
     auto gind = genericDet->index();
-    assert(gind < gpuClustering::maxNumModules);
+    assert(gind < gpuClusteringConstants::maxNumModules);
     auto const nclus = dsv.size();
     clusInModule_[gind] = nclus;
     numberOfClusters += nclus;
@@ -138,7 +138,7 @@ void SiPixelRecHitSoAFromLegacy::produce(edm::StreamID streamID, edm::Event& iEv
   hitsModuleStart[0] = 0;
   for (int i = 1, n = clusInModule_.size(); i < n; ++i)
     hitsModuleStart[i] = hitsModuleStart[i - 1] + clusInModule_[i - 1];
-  assert(numberOfClusters == int(hitsModuleStart[gpuClustering::maxNumModules]));
+  assert(numberOfClusters == int(hitsModuleStart[gpuClusteringConstants::maxNumModules]));
 
   // output SoA
   auto output = std::make_unique<TrackingRecHit2DCPU>(numberOfClusters, &cpeView, hitsModuleStart, nullptr);
@@ -151,7 +151,7 @@ void SiPixelRecHitSoAFromLegacy::produce(edm::StreamID streamID, edm::Event& iEv
   }
 
   if (convert2Legacy_)
-    legacyOutput->reserve(gpuClustering::maxNumModules, numberOfClusters);
+    legacyOutput->reserve(gpuClusteringConstants::maxNumModules, numberOfClusters);
 
   int numberOfDetUnits = 0;
   int numberOfHits = 0;
@@ -161,7 +161,7 @@ void SiPixelRecHitSoAFromLegacy::produce(edm::StreamID streamID, edm::Event& iEv
     DetId detIdObject(detid);
     const GeomDetUnit* genericDet = geom_->idToDetUnit(detIdObject);
     auto const gind = genericDet->index();
-    assert(gind < gpuClustering::maxNumModules);
+    assert(gind < gpuClusteringConstants::maxNumModules);
     const PixelGeomDetUnit* pixDet = dynamic_cast<const PixelGeomDetUnit*>(genericDet);
     assert(pixDet);
     auto const nclus = dsv.size();
@@ -217,7 +217,7 @@ void SiPixelRecHitSoAFromLegacy::produce(edm::StreamID streamID, edm::Event& iEv
       if (h - fc < maxHitsInModule)
         assert(gind == output->view()->detectorIndex(h));
       else
-        assert(gpuClustering::invalidModuleId == output->view()->detectorIndex(h));
+        assert(gpuClusteringConstants::invalidModuleId == output->view()->detectorIndex(h));
     if (convert2Legacy_) {
       SiPixelRecHitCollectionNew::FastFiller recHitsOnDetUnit(*legacyOutput, detid);
       for (auto h = fc; h < lc; ++h) {

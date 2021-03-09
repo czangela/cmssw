@@ -9,7 +9,7 @@
 #include "HeterogeneousCore/CUDAUtilities/interface/HistoContainer.h"
 #include "HeterogeneousCore/CUDAUtilities/interface/cuda_assert.h"
 
-namespace gpuClustering {
+namespace gpuClusteringConstants {
 
 #ifdef GPU_DEBUG
   __device__ uint32_t gMaxHit = 0;
@@ -298,6 +298,6 @@ namespace gpuClustering {
       }
     }  // module loop
   }
-}  // namespace gpuClustering
+}  // namespace gpuClusteringConstants
 
 #endif  // RecoLocalTracker_SiPixelClusterizer_plugins_gpuClustering_h
