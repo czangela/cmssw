@@ -108,7 +108,7 @@ std::unique_ptr<PixelCPEBase::ClusterParam> PixelCPETemplateReco::createClusterP
 //  The main call to the template code.
 //------------------------------------------------------------------
 LocalPoint PixelCPETemplateReco::localPosition(DetParam const& theDetParam, ClusterParam& theClusterParamBase) const {
-  ClusterParamTemplate& theClusterParam = static_cast<ClusterParamTemplate&>(theClusterParamBase);
+  ClusterParamTemplate& theClusterParam = dynamic_cast<ClusterParamTemplate&>(theClusterParamBase);
 
   if (!GeomDetEnumerators::isTrackerPixel(theDetParam.thePart))
     throw cms::Exception("PixelCPETemplateReco::localPosition :") << "A non-pixel detector type in here?";
@@ -408,7 +408,7 @@ LocalPoint PixelCPETemplateReco::localPosition(DetParam const& theDetParam, Clus
 //  localError() relies on localPosition() being called FIRST!!!
 //------------------------------------------------------------------
 LocalError PixelCPETemplateReco::localError(DetParam const& theDetParam, ClusterParam& theClusterParamBase) const {
-  ClusterParamTemplate& theClusterParam = static_cast<ClusterParamTemplate&>(theClusterParamBase);
+  ClusterParamTemplate& theClusterParam = dynamic_cast<ClusterParamTemplate&>(theClusterParamBase);
 
   //cout << endl;
   //cout << "Set PixelCPETemplate errors .............................................." << endl;

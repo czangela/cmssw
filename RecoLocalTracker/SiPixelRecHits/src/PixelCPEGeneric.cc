@@ -153,7 +153,7 @@ std::unique_ptr<PixelCPEBase::ClusterParam> PixelCPEGeneric::createClusterParam(
 //! into the local frame (in centimeters).
 //-----------------------------------------------------------------------------
 LocalPoint PixelCPEGeneric::localPosition(DetParam const& theDetParam, ClusterParam& theClusterParamBase) const {
-  ClusterParamGeneric& theClusterParam = static_cast<ClusterParamGeneric&>(theClusterParamBase);
+  ClusterParamGeneric& theClusterParam = dynamic_cast<ClusterParamGeneric&>(theClusterParamBase);
 
   //cout<<" in PixelCPEGeneric:localPosition - "<<endl; //dk
 
@@ -169,20 +169,6 @@ LocalPoint PixelCPEGeneric::localPosition(DetParam const& theDetParam, ClusterPa
     float locBz = theDetParam.bz;
     float locBx = theDetParam.bx;
     //cout << "PixelCPEGeneric::localPosition(...) : locBz = " << locBz << endl;
-
-    theClusterParam.pixmx = -999;     // max pixel charge for truncation of 2-D cluster
-    theClusterParam.sigmay = -999.9;  // CPE Generic y-error for multi-pixel cluster
-    theClusterParam.deltay = -999.9;  // CPE Generic y-bias for multi-pixel cluster
-    theClusterParam.sigmax = -999.9;  // CPE Generic x-error for multi-pixel cluster
-    theClusterParam.deltax = -999.9;  // CPE Generic x-bias for multi-pixel cluster
-    theClusterParam.sy1 = -999.9;     // CPE Generic y-error for single single-pixel
-    theClusterParam.dy1 = -999.9;     // CPE Generic y-bias for single single-pixel cluster
-    theClusterParam.sy2 = -999.9;     // CPE Generic y-error for single double-pixel cluster
-    theClusterParam.dy2 = -999.9;     // CPE Generic y-bias for single double-pixel cluster
-    theClusterParam.sx1 = -999.9;     // CPE Generic x-error for single single-pixel cluster
-    theClusterParam.dx1 = -999.9;     // CPE Generic x-bias for single single-pixel cluster
-    theClusterParam.sx2 = -999.9;     // CPE Generic x-error for single double-pixel cluster
-    theClusterParam.dx2 = -999.9;     // CPE Generic x-bias for single double-pixel cluster
 
     SiPixelGenError gtempl(thePixelGenError_);
     int gtemplID_ = theDetParam.detTemplateId;
@@ -403,7 +389,7 @@ void PixelCPEGeneric::collect_edge_charges(ClusterParam& theClusterParamBase,  /
                                            int& q_f_Y,                         //!< output, Q first  in Y
                                            int& q_l_Y                          //!< output, Q last   in Y
 ) const {
-  ClusterParamGeneric& theClusterParam = static_cast<ClusterParamGeneric&>(theClusterParamBase);
+  ClusterParamGeneric& theClusterParam = dynamic_cast<ClusterParamGeneric&>(theClusterParamBase);
 
   // Initialize return variables.
   q_f_X = q_l_X = 0.0;
@@ -447,7 +433,7 @@ void PixelCPEGeneric::collect_edge_charges(ClusterParam& theClusterParamBase,  /
 //  Hit error in the local frame
 //-------------------------------------------------------------------------
 LocalError PixelCPEGeneric::localError(DetParam const& theDetParam, ClusterParam& theClusterParamBase) const {
-  ClusterParamGeneric& theClusterParam = static_cast<ClusterParamGeneric&>(theClusterParamBase);
+  ClusterParamGeneric& theClusterParam = dynamic_cast<ClusterParamGeneric&>(theClusterParamBase);
 
   const bool localPrint = false;
   // Default errors are the maximum error used for edge clusters.

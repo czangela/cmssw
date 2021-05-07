@@ -177,7 +177,7 @@ public:
     return tuple;
   }
 
-private:
+protected:
   virtual std::unique_ptr<ClusterParam> createClusterParam(const SiPixelCluster& cl) const = 0;
 
   //--------------------------------------------------------------------------

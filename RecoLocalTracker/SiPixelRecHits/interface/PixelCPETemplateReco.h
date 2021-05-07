@@ -29,10 +29,11 @@
 #endif
 
 class MagneticField;
-class PixelCPETemplateReco : public PixelCPEBase {
+class PixelCPETemplateReco : public virtual PixelCPEBase {
 public:
-  struct ClusterParamTemplate : ClusterParam {
+  struct ClusterParamTemplate : virtual ClusterParam {
     ClusterParamTemplate(const SiPixelCluster &cl) : ClusterParam(cl) {}
+    ClusterParamTemplate() = default;
     // The result of PixelTemplateReco2D
     float templXrec_;
     float templYrec_;
@@ -62,7 +63,7 @@ public:
 
   static void fillPSetDescription(edm::ParameterSetDescription &desc);
 
-private:
+protected:
   std::unique_ptr<ClusterParam> createClusterParam(const SiPixelCluster &cl) const override;
 
   // We only need to implement measurementPosition, since localPosition() from
@@ -72,13 +73,13 @@ private:
 
   // However, we do need to implement localError().
   LocalError localError(DetParam const &theDetParam, ClusterParam &theClusterParam) const override;
+  bool UseClusterSplitter_;
 
+private:
   // Template storage
   std::vector<SiPixelTemplateStore> thePixelTemp_;
 
   int speed_;
-
-  bool UseClusterSplitter_;
 
   // Template file management (when not getting the templates from the DB)
   int barrelTemplateID_;

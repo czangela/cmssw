@@ -49,31 +49,32 @@
 #endif
 
 class MagneticField;
-class PixelCPEGeneric final : public PixelCPEBase {
+class PixelCPEGeneric : public virtual PixelCPEBase {
 public:
-  struct ClusterParamGeneric : ClusterParam {
+  struct ClusterParamGeneric : virtual ClusterParam {
     ClusterParamGeneric(const SiPixelCluster &cl) : ClusterParam(cl) {}
+    ClusterParamGeneric() = default;
     // The truncation value pix_maximum is an angle-dependent cutoff on the
     // individual pixel signals. It should be applied to all pixels in the
     // cluster [signal_i = fminf(signal_i, pixmax)] before the column and row
     // sums are made. Morris
-    int pixmx;
+    int pixmx = -999;
 
     // These are errors predicted by PIXELAV
-    float sigmay;  // CPE Generic y-error for multi-pixel cluster
-    float sigmax;  // CPE Generic x-error for multi-pixel cluster
-    float sy1;     // CPE Generic y-error for single single-pixel
-    float sy2;     // CPE Generic y-error for single double-pixel cluster
-    float sx1;     // CPE Generic x-error for single single-pixel cluster
-    float sx2;     // CPE Generic x-error for single double-pixel cluster
+    float sigmay = -999.9;  // CPE Generic y-error for multi-pixel cluster
+    float sigmax = -999.9;  // CPE Generic x-error for multi-pixel cluster
+    float sy1 = -999.9;     // CPE Generic y-error for single single-pixel
+    float sy2 = -999.9;     // CPE Generic y-error for single double-pixel cluster
+    float sx1 = -999.9;     // CPE Generic x-error for single single-pixel cluster
+    float sx2 = -999.9;     // CPE Generic x-error for single double-pixel cluster
 
     // These are irradiation bias corrections
-    float deltay;  // CPE Generic y-bias for multi-pixel cluster
-    float deltax;  // CPE Generic x-bias for multi-pixel cluster
-    float dy1;     // CPE Generic y-bias for single single-pixel cluster
-    float dy2;     // CPE Generic y-bias for single double-pixel cluster
-    float dx1;     // CPE Generic x-bias for single single-pixel cluster
-    float dx2;     // CPE Generic x-bias for single double-pixel cluster
+    float deltay = -999.9;  // CPE Generic y-bias for multi-pixel cluster
+    float deltax = -999.9;  // CPE Generic x-bias for multi-pixel cluster
+    float dy1 = -999.9;     // CPE Generic y-bias for single single-pixel cluster
+    float dy2 = -999.9;     // CPE Generic y-bias for single double-pixel cluster
+    float dx1 = -999.9;     // CPE Generic x-bias for single single-pixel cluster
+    float dx2 = -999.9;     // CPE Generic x-bias for single double-pixel cluster
   };
 
   PixelCPEGeneric(edm::ParameterSet const &conf,
@@ -88,7 +89,7 @@ public:
 
   static void fillPSetDescription(edm::ParameterSetDescription &desc);
 
-private:
+protected:
   std::unique_ptr<ClusterParam> createClusterParam(const SiPixelCluster &cl) const override;
 
   LocalPoint localPosition(DetParam const &theDetParam, ClusterParam &theClusterParam) const override;
@@ -104,6 +105,7 @@ private:
                             int &q_l_Y                      //!< output, Q last   in Y
   ) const;
 
+private:
   //--- Errors squared in x and y.  &&& Need to be revisited.
   float err2X(bool &, int &) const;
   float err2Y(bool &, int &) const;
